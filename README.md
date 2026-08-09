@@ -90,12 +90,12 @@ club-management/
 
 Dự án dùng **dữ liệu mô phỏng theo kịch bản thực tế** tại `data/raw/` — đúng theo lựa chọn nguồn dữ liệu mà đề bài cho phép (30 thành viên, 12 sự kiện, 190 lượt điểm danh hợp lệ + 4 dòng lỗi chủ ý để demo exception). Code được viết **generic theo tên cột** (không hard-code số liệu cụ thể): khi có dữ liệu thật, chỉ cần thay 3 file CSV đúng schema ở mục 2/3, không cần sửa logic.
 
-## 6. Kế hoạch triển khai (theo pha, không cố định theo ngày vì đang chờ dữ liệu)
+## 6. Kế hoạch triển khai (theo pha)
 
 | Pha | Nội dung |
 |---|---|
 | 0 | Khởi tạo repo, README, rule cho Cline, scaffold cấu trúc thư mục |
-| 1 | Code `models/` (OOP core) + dữ liệu mô phỏng placeholder |
+| 1 | Code `models/` (OOP core) + sinh bộ dữ liệu mô phỏng |
 | 2 | Code `processing/loader.py` (đọc CSV, validate, exception) |
 | 3 | Code `analysis/stats.py` (Pandas + SciPy) |
 | 4 | Code `visualization/charts.py` (≥3 biểu đồ) |

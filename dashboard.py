@@ -42,12 +42,12 @@ with tab2:
     )
 
 with tab3:
-    top_n = st.slider("Số thành viên hiển thị", min_value=5, max_value=len(club._members), value=10)
+    top_n = st.slider("Số thành viên hiển thị", min_value=5, max_value=len(club.members), value=10)
     st.pyplot(plot_top_engaged_members(club, top_n=top_n))
     st.dataframe(engagement_with_stats(club), width="stretch")
 
 with tab4:
     risk_df = churn_risk(club)
-    risk_top_n = st.slider("Số thành viên hiển thị ", min_value=5, max_value=len(club._members), value=10)
+    risk_top_n = st.slider("Số thành viên hiển thị ", min_value=5, max_value=len(club.members), value=10)
     st.pyplot(plot_churn_risk(risk_df, top_n=risk_top_n))
     st.dataframe(risk_df, width="stretch")

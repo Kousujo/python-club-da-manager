@@ -1,0 +1,13 @@
+event_id,name,date,category,event_type
+E001,Le ra mat CLB nam hoc moi,2025-09-20,Sinh hoat chung,mandatory
+E002,Sinh hoat dinh ky thang 10,2025-10-15,Sinh hoat chung,mandatory
+E003,Workshop Git & GitHub co ban,2025-10-25,Dao tao,optional
+E004,Sinh hoat dinh ky thang 11,2025-11-12,Sinh hoat chung,mandatory
+E005,Hackathon noi bo 24h,2025-11-29,Hoc thuat,optional
+E006,Sinh hoat dinh ky thang 12,2025-12-10,Sinh hoat chung,mandatory
+E007,Gala tong ket hoc ky 1,2025-12-20,Tong ket,mandatory
+E008,Workshop Python cho phan tich du lieu,2026-02-14,Dao tao,optional
+E009,Sinh hoat dinh ky thang 2,2026-02-25,Sinh hoat chung,mandatory
+E010,Giao luu CLB cong nghe cac truong,2026-03-15,Giao luu,optional
+E011,Kiem tra ky nang lap trinh giua ky,2026-04-10,Kiem tra ky nang,mandatory
+E012,Gala tong ket nam hoc,2026-05-20,Tong ket,mandatory

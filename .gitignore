@@ -217,5 +217,4 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Data - giá»¯ placeholder, bá» qua dá»¯ liá»‡u tháº­t sau nÃ y
-data/raw/*.csv
+# Dữ liệu mô phỏng trong data/raw/ ĐƯỢC commit để repo chạy được ngay sau khi clone.

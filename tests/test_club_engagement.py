@@ -14,6 +14,7 @@ from src.models.club import Club
 from src.models.event import MandatoryEvent, OptionalEvent
 from src.models.exceptions import DuplicateAttendanceError, MemberNotFoundError
 from src.models.member import Member, Officer
+from src.analysis.stats import churn_risk
 
 club = Club()
 club.add_member(Member("M1", "Thanh vien A", "", date(2025, 1, 1)))
@@ -25,11 +26,11 @@ club.check_in("M1", "E1", datetime(2025, 2, 1, 8, 0))
 club.check_in("M2", "E1", datetime(2025, 2, 1, 8, 0))
 club.check_in("M2", "E2", datetime(2025, 2, 5, 8, 0))
 
-assert club._events["E1"].get_attendance_weight() == 1.5
-assert club._events["E2"].get_attendance_weight() == 0.8
+assert club.events["E1"].get_attendance_weight() == 1.5
+assert club.events["E2"].get_attendance_weight() == 0.8
 
-assert club._members["M1"].get_score_multiplier() == 1.0
-assert club._members["M2"].get_score_multiplier() == 1.2
+assert club.members["M1"].get_score_multiplier() == 1.0
+assert club.members["M2"].get_score_multiplier() == 1.2
 
 ranking = club.engagement_ranking()
 top = ranking.iloc[0]
@@ -49,8 +50,6 @@ except DuplicateAttendanceError:
     pass
 
 print("OK - tat ca assert pass (da hinh + exception dung dac ta).")
-
-from src.analysis.stats import churn_risk
 
 club.add_event(MandatoryEvent("E3", "Sinh hoat thang 3", date(2025, 3, 1), "Sinh hoat"))
 club.check_in("M2", "E3", datetime(2025, 3, 1, 8, 0))

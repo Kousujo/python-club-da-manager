@@ -3,6 +3,9 @@
 Tầng này KHÔNG chứa logic OOP, chỉ nhận Club đã build sẵn (từ
 models/club.py, sau khi loader.py nạp dữ liệu) và làm phân tích bổ
 sung: xu hướng tăng trưởng, phân loại thành viên bằng thống kê.
+
+Mọi truy cập dữ liệu đi qua interface công khai của Club
+(club.members / club.events / club.to_dataframe()).
 """
 
 from __future__ import annotations
@@ -17,10 +20,13 @@ from src.models.club import Club
 def growth_trend(club: Club) -> tuple[pd.DataFrame, dict[str, float]]:
     """Xu hướng tăng trưởng thành viên theo thời gian bằng hồi quy tuyến tính.
 
+    Lưu ý diễn giải: club chỉ tuyển thành viên trong một giai đoạn ngắn rồi
+    dừng, nên đường tích luỹ có dạng BÃO HOÀ. Hồi quy tuyến tính ở đây mô tả
+    tốc độ tuyển quân của giai đoạn đầu, KHÔNG dùng để ngoại suy tương lai.
+
     Trả về:
-        - DataFrame (join_date, cumulative_members) kèm cột 'trend' —
-          giá trị dự đoán theo đường hồi quy, dùng để vẽ overlay trên
-          biểu đồ đường.
+        - DataFrame (join_date, new_members, cumulative_members) kèm cột
+          'trend' — giá trị dự đoán theo đường hồi quy, dùng để vẽ overlay.
         - dict thống kê: slope (thành viên/ngày), intercept, r_value,
           p_value, std_err — dùng để giải thích xu hướng trong báo cáo.
     """
@@ -51,9 +57,7 @@ def growth_trend(club: Club) -> tuple[pd.DataFrame, dict[str, float]]:
     }
 
 
-def engagement_with_stats(
-    club: Club, z_threshold: float = 1.0
-) -> pd.DataFrame:
+def engagement_with_stats(club: Club, z_threshold: float = 1.0) -> pd.DataFrame:
     """engagement_ranking() bổ sung z-score, percentile và phân loại thống kê.
 
     Phân loại:
@@ -94,48 +98,65 @@ def churn_risk(club: Club, z_threshold: float = 1.0) -> pd.DataFrame:
         (dương = đang giảm dần).
     churn_score = trung bình 2 z-score, phân loại theo z_threshold,
     đồng bộ phong cách với engagement_with_stats().
+
+    Toàn bộ tính bằng groupby vector hoá, không lọc DataFrame trong vòng lặp.
     """
-    if not club._events:
+    events = club.events
+    members = club.members
+    if not events or not members:
         return pd.DataFrame()
 
-    event_dates = sorted(e.date for e in club._events.values())
-    last_date = event_dates[-1]
-    first_date = event_dates[0]
+    event_dates = sorted(e.date for e in events.values())
+    first_date, last_date = event_dates[0], event_dates[-1]
     mid_date = event_dates[len(event_dates) // 2]
 
-    first_half_ids = {eid for eid, e in club._events.items() if e.date <= mid_date}
-    second_half_ids = {eid for eid, e in club._events.items() if e.date > mid_date}
+    first_half_ids = {eid for eid, e in events.items() if e.date <= mid_date}
+    second_half_ids = {eid for eid, e in events.items() if e.date > mid_date}
 
+    index = pd.Index(list(members.keys()), name="member_id")
     df = club.to_dataframe()
 
-    rows = []
-    for member_id, member in club._members.items():
-        attended = df[df["member_id"] == member_id]
-        if attended.empty:
-            recency_days = (last_date - first_date).days
-            rate_first = rate_second = 0.0
-        else:
-            last_attend_date = pd.to_datetime(attended["checkin_time"]).max().date()
-            recency_days = (last_date - last_attend_date).days
-            attended_ids = set(attended["event_id"])
-            rate_first = (
-                len(attended_ids & first_half_ids) / len(first_half_ids)
-                if first_half_ids else 0.0
-            )
-            rate_second = (
-                len(attended_ids & second_half_ids) / len(second_half_ids)
-                if second_half_ids else 0.0
-            )
-        rows.append(
-            {
-                "member_id": member_id,
-                "member_name": member.full_name,
-                "recency_days": recency_days,
-                "trend_drop": rate_first - rate_second,
-            }
+    if df.empty:
+        last_attend = pd.Series(pd.NaT, index=index)
+        count_first = pd.Series(0, index=index)
+        count_second = pd.Series(0, index=index)
+    else:
+        last_attend = (
+            pd.to_datetime(df["checkin_time"])
+            .groupby(df["member_id"])
+            .max()
+            .reindex(index)
+        )
+        count_first = (
+            df[df["event_id"].isin(first_half_ids)]
+            .groupby("member_id")["event_id"]
+            .nunique()
+            .reindex(index, fill_value=0)
+        )
+        count_second = (
+            df[df["event_id"].isin(second_half_ids)]
+            .groupby("member_id")["event_id"]
+            .nunique()
+            .reindex(index, fill_value=0)
         )
 
-    result = pd.DataFrame(rows)
+    stale_days = (last_date - first_date).days
+    recency_days = last_attend.apply(
+        lambda ts: stale_days if pd.isna(ts) else (last_date - ts.date()).days
+    )
+
+    rate_first = count_first / len(first_half_ids) if first_half_ids else 0.0
+    rate_second = count_second / len(second_half_ids) if second_half_ids else 0.0
+
+    result = pd.DataFrame(
+        {
+            "member_id": index,
+            "member_name": [members[mid].full_name for mid in index],
+            "recency_days": recency_days.to_numpy(),
+            "trend_drop": (rate_first - rate_second).to_numpy(),
+        }
+    ).reset_index(drop=True)
+
     if len(result) < 2 or result["recency_days"].std(ddof=0) == 0:
         result["churn_score"] = 0.0
     else:
@@ -145,9 +166,11 @@ def churn_risk(club: Club, z_threshold: float = 1.0) -> pd.DataFrame:
 
     result["risk_level"] = result["churn_score"].apply(
         lambda z: (
-            "Nguy cơ cao" if z >= z_threshold
-            else "Ổn định" if z <= -z_threshold
+            "Nguy cơ cao"
+            if z >= z_threshold
+            else "Ổn định"
+            if z <= -z_threshold
             else "Bình thường"
         )
     )
-    return result.sort_values("churn_score", ascending=False)
+    return result.sort_values("churn_score", ascending=False, ignore_index=True)
