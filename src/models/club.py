@@ -199,6 +199,36 @@ class Club:
             ],
         ).sort_values("participation_rate", ascending=False, ignore_index=True)
 
+    def participation_rate_by_class(self) -> pd.DataFrame:
+        """Tỉ lệ tham gia trung bình theo lớp (chiều phân tích từ class_name).
+
+        avg_participation_rate = trung bình tỉ lệ tham gia của các thành viên
+        cùng lớp. Lớp không có thành viên nào điểm danh vẫn hiện với 0%.
+        """
+        per_member = self.participation_rate_by_member()
+        if per_member.empty:
+            return pd.DataFrame(
+                columns=[
+                    "class_name",
+                    "member_count",
+                    "total_attendances",
+                    "avg_participation_rate",
+                ]
+            )
+
+        grouped = (
+            per_member.groupby("class_name")
+            .agg(
+                member_count=("member_id", "nunique"),
+                total_attendances=("attended_count", "sum"),
+                avg_participation_rate=("participation_rate", "mean"),
+            )
+            .reset_index()
+        )
+        return grouped.sort_values(
+            "avg_participation_rate", ascending=False, ignore_index=True
+        )
+
     # -- Điểm tích cực (nơi đa hình được dùng thật) --------------------------
     def engagement_ranking(self, top_n: int | None = None) -> pd.DataFrame:
         """Xếp hạng thành viên tích cực bằng điểm có trọng số đa hình:

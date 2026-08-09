@@ -94,3 +94,92 @@ def plot_churn_risk(df: pd.DataFrame, top_n: int = 10, save_path: str | None = N
     if save_path:
         fig.savefig(save_path, dpi=150)
     return fig
+
+
+def plot_attendance_heatmap(club, save_path: str | None = None) -> plt.Figure:
+    """Bản đồ nhiệt điểm danh: hàng = thành viên, cột = sự kiện theo thời gian.
+
+    Hàng sắp theo điểm tích cực giảm dần, cột sắp theo ngày diễn ra. Nhờ vậy
+    các kiểu hành vi hiện thành hình: người tham gia đều đặn tạo dải liền
+    ngang, người giảm dần tạo hình tam giác nhạt về bên phải, người chỉ đến
+    theo hứng tạo các ô rời rạc.
+    """
+    df = club.to_dataframe()
+    ranking = club.engagement_ranking()
+    events_sorted = sorted(club.events.values(), key=lambda e: e.date)
+    event_ids = [e.event_id for e in events_sorted]
+    member_ids = list(ranking["member_id"])
+
+    matrix = (
+        df.assign(present=1)
+        .pivot_table(
+            index="member_id",
+            columns="event_id",
+            values="present",
+            fill_value=0,
+            aggfunc="max",
+        )
+        .reindex(index=member_ids, columns=event_ids, fill_value=0)
+    )
+
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.imshow(matrix.values, cmap="Blues", aspect="auto", vmin=0, vmax=1)
+
+    # Nhãn cột gộp luôn loại sự kiện và tô màu theo loại — tránh vẽ chữ đè lên
+    # vùng ảnh hoặc đè lên tiêu đề.
+    ax.set_xticks(range(len(event_ids)))
+    ax.set_xticklabels(
+        [
+            f"{e.event_id}\n{e.date:%m/%y}\n{'BB' if e.get_attendance_weight() > 1.0 else 'TC'}"
+            for e in events_sorted
+        ],
+        fontsize=8,
+    )
+    for label, event in zip(ax.get_xticklabels(), events_sorted):
+        label.set_color("#C44E52" if event.get_attendance_weight() > 1.0 else "#55A868")
+
+    ax.set_yticks(range(len(member_ids)))
+    ax.set_yticklabels(ranking["member_name"], fontsize=7)
+
+    ax.set_title(
+        "Bản đồ nhiệt điểm danh — ô đậm = có mặt\n"
+        "hàng: thành viên xếp theo điểm tích cực giảm dần | "
+        "cột: sự kiện theo thời gian (BB = bắt buộc, TC = tự chọn)",
+        fontsize=11,
+    )
+    ax.set_xlabel("Sự kiện")
+    ax.set_ylabel("Thành viên")
+    ax.set_xticks([x - 0.5 for x in range(1, len(event_ids))], minor=True)
+    ax.set_yticks([y - 0.5 for y in range(1, len(member_ids))], minor=True)
+    ax.grid(which="minor", color="white", linewidth=0.5)
+    ax.tick_params(which="minor", length=0)
+    fig.tight_layout()
+    if save_path:
+        fig.savefig(save_path, dpi=150)
+    return fig
+
+
+def plot_event_retention(
+    retention_df: pd.DataFrame, save_path: str | None = None
+) -> plt.Figure:
+    """Cột ngang: sức giữ chân của từng sự kiện với nhóm có nguy cơ rời bỏ.
+
+    Cột dương = sự kiện kéo nhóm nguy cơ đến nhiều hơn nhóm còn lại.
+    """
+    df = retention_df.dropna(subset=["retention_lift"]).sort_values("retention_lift")
+    colors = ["#55A868" if v > 0 else "#C44E52" for v in df["retention_lift"]]
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.barh(df["event_name"], df["retention_lift"], color=colors)
+    ax.axvline(0, color="#333333", linewidth=0.8)
+    ax.set_title(
+        "Sức giữ chân của sự kiện\n"
+        "(chênh lệch tỉ lệ tham gia: nhóm nguy cơ - nhóm còn lại)"
+    )
+    ax.set_xlabel("Retention lift (dương = kéo được nhóm nguy cơ)")
+    ax.set_ylabel("Sự kiện")
+    ax.tick_params(axis="y", labelsize=8)
+    fig.tight_layout()
+    if save_path:
+        fig.savefig(save_path, dpi=150)
+    return fig
