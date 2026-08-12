@@ -6,6 +6,7 @@ import streamlit as st
 
 from src.analysis.stats import (
     churn_risk,
+    class_participation_test,
     engagement_with_stats,
     event_retention_power,
     growth_trend,
@@ -50,6 +51,10 @@ with tab1:
     st.dataframe(club.participation_rate_by_event(), width="stretch")
     st.subheader("Theo lớp")
     st.dataframe(club.participation_rate_by_class(), width="stretch")
+    st.caption(
+        "Lưu ý: chênh lệch giữa các lớp KHÔNG có ý nghĩa thống kê "
+        "(Kruskal-Wallis, xem tab Kiểm định). Không đọc bảng này như xếp hạng."
+    )
 
 with tab2:
     trend_df, trend_stats = growth_trend(club)
@@ -78,10 +83,13 @@ with tab5:
     )
 
 with tab6:
-    st.subheader("Kiểm định 1 — bắt buộc vs tự chọn (chi-square)")
+    st.subheader("Kiểm định 1 — chênh lệch giữa các lớp (Kruskal-Wallis)")
+    st.json(class_participation_test(club))
+
+    st.subheader("Kiểm định 2 — bắt buộc vs tự chọn (chi-square)")
     st.json(mandatory_vs_optional_test(club))
 
-    st.subheader("Kiểm định 2 — mức tham gia có suy giảm không (Wilcoxon ghép cặp)")
+    st.subheader("Kiểm định 3 — mức tham gia có suy giảm không (Wilcoxon ghép cặp)")
     st.json(participation_decline_test(club))
 
     st.subheader("Sức giữ chân của sự kiện")

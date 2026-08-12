@@ -235,6 +235,44 @@ def participation_decline_test(club: Club) -> dict[str, float | str | int]:
     }
 
 
+def class_participation_test(club: Club) -> dict[str, float | str | int]:
+    """Tỉ lệ tham gia có khác nhau giữa các lớp không?
+
+    Kruskal–Wallis trên tỉ lệ tham gia của từng thành viên, nhóm theo lớp.
+    Không dùng ANOVA vì tỉ lệ bị chặn trong [0, 1] và mỗi nhóm chỉ 6 người.
+
+    Kiểm định này tồn tại để CHỐNG lại việc đọc bảng xếp hạng bằng mắt:
+    bảng participation_rate_by_class() trải từ ~0.61 xuống ~0.46, nhìn qua
+    tưởng lớp dẫn đầu tích cực hơn hẳn lớp cuối, nhưng nếu p lớn thì toàn bộ
+    chênh lệch đó chỉ là dao động ngẫu nhiên giữa các nhóm 6 người.
+    """
+    df = club.participation_rate_by_member()
+    if df.empty or df["class_name"].nunique() < 2:
+        return {"error": "Cần ít nhất 2 lớp để kiểm định."}
+
+    groups = [
+        g["participation_rate"].to_numpy() for _, g in df.groupby("class_name")
+    ]
+    rates = df.groupby("class_name")["participation_rate"].mean()
+    result = stats.kruskal(*groups)
+
+    return {
+        "n_classes": int(len(groups)),
+        "highest_class": f"{rates.idxmax()} ({rates.max():.4f})",
+        "lowest_class": f"{rates.idxmin()} ({rates.min():.4f})",
+        "spread": float(rates.max() - rates.min()),
+        "statistic": float(result.statistic),
+        "p_value": float(result.pvalue),
+        "conclusion": (
+            "Bác bỏ H0: các lớp có mức tham gia khác nhau có ý nghĩa (α=0.05)."
+            if result.pvalue < 0.05
+            else "Chưa bác bỏ được H0: chênh lệch giữa các lớp là nhiễu ngẫu "
+            "nhiên, KHÔNG phải phát hiện — không được diễn giải bảng xếp hạng "
+            "lớp như một kết luận."
+        ),
+    }
+
+
 def mandatory_vs_optional_test(club: Club) -> dict[str, float | str | int]:
     """Sự kiện bắt buộc có tỉ lệ tham gia cao hơn sự kiện tự chọn không?
 

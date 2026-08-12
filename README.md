@@ -10,7 +10,7 @@ Hệ thống mô phỏng việc quản lý thành viên, sự kiện và điểm
 |---|---|---|
 | CLO1 (10%) | Cú pháp & cấu trúc Python | Toàn bộ codebase: PEP8, type hint, try/except, module rõ ràng |
 | CLO2 (25%) | Xử lý & biến đổi dữ liệu (Pandas/NumPy) | `src/processing/`, `src/analysis/` |
-| CLO3 (20%) | Trực quan hoá & giải thích kết quả | `src/visualization/` (≥3 biểu đồ Matplotlib) |
+| CLO3 (20%) | Trực quan hoá & giải thích kết quả | `src/visualization/` (6 biểu đồ Matplotlib) |
 | CLO4 (30%) | Thiết kế OOP & giải pháp phân tích tổng thể | `src/models/` (kế thừa + đa hình), `src/db/` (SQL Server), `dashboard.py` (Streamlit) |
 | CLO5 (15%) | Làm việc nhóm, báo cáo & thuyết trình | `report/`, slide thuyết trình |
 
@@ -46,10 +46,9 @@ Club                          # lớp điều phối — không kế thừa, t�
 ## 3. Cấu trúc thư mục
 
 ```
-club-management/
+Python-DA/
 ├── data/
-│   ├── raw/                    # members.csv, events.csv, attendance.csv
-│   └── processed/              # dữ liệu đã xử lý (cache)
+│   └── raw/                    # members.csv, events.csv, attendance.csv
 ├── src/
 │   ├── config.py
 │   ├── models/
@@ -62,13 +61,12 @@ club-management/
 │   ├── analysis/
 │   │   └── stats.py            # Pandas + SciPy (xu hướng, xếp hạng)
 │   ├── visualization/
-│   │   └── charts.py           # ≥3 biểu đồ Matplotlib
+│   │   └── charts.py           # 6 biểu đồ Matplotlib
 │   └── db/
 │       ├── schema.sql          # mở rộng: SQL Server
 │       └── sql_loader.py
 ├── dashboard.py                 # mở rộng: Streamlit
 ├── main.py                      # pipeline chạy toàn bộ
-├── notebooks/                   # notebook tổng hợp để nộp bài
 ├── report/                      # báo cáo Word/PDF
 ├── tests/                        # sanity check nhanh cho models/
 ├── .clinerules/
@@ -82,7 +80,7 @@ club-management/
 
 1. `processing.loader` đọc 3 file CSV trong `data/raw/` → dựng các đối tượng `Member`/`Officer`, `Event` (Mandatory/Optional), nạp vào `Club`. Dòng dữ liệu lỗi (thành viên/sự kiện không tồn tại, điểm danh trùng) được bắt bằng exception riêng và log lại, không làm crash pipeline.
 2. `analysis.stats` dùng `Club` để tính: tỉ lệ tham gia theo sự kiện, tỉ lệ tham gia theo thành viên (có trọng số đa hình), xếp hạng thành viên tích cực, xu hướng tăng trưởng thành viên (SciPy `linregress`).
-3. `visualization.charts` xuất ≥3 biểu đồ Matplotlib từ kết quả bước 2.
+3. `visualization.charts` xuất 6 biểu đồ Matplotlib từ kết quả bước 2.
 4. (Mở rộng) `db.sql_loader` đẩy dữ liệu vào SQL Server, chạy vài query JOIN/GROUP BY/window function minh hoạ.
 5. (Mở rộng) `dashboard.py` — Streamlit hiển thị lại toàn bộ phân tích dưới dạng tương tác cho phần thuyết trình.
 
@@ -98,10 +96,10 @@ Dự án dùng **dữ liệu mô phỏng theo kịch bản thực tế** tại `
 | 1 | Code `models/` (OOP core) + sinh bộ dữ liệu mô phỏng |
 | 2 | Code `processing/loader.py` (đọc CSV, validate, exception) |
 | 3 | Code `analysis/stats.py` (Pandas + SciPy) |
-| 4 | Code `visualization/charts.py` (≥3 biểu đồ) |
+| 4 | Code `visualization/charts.py` (6 biểu đồ) |
 | 5 | Mở rộng: SQL Server (`db/`) |
 | 6 | Mở rộng: Streamlit (`dashboard.py`) |
-| 7 | Thay dữ liệu mô phỏng bằng dữ liệu thật (khi CLB cung cấp) |
+| 7 | Viết báo cáo Word + slide thuyết trình |
 | 8 | Viết báo cáo + slide thuyết trình |
 
 ## 7. Cài đặt & chạy
@@ -117,7 +115,7 @@ streamlit run dashboard.py       # chạy dashboard (mở rộng)
 
 ## 8. Sản phẩm nộp
 
-- [ ] Mã nguồn (`club-management/`)
+- [ ] Mã nguồn (`Python-DA/`)
 - [ ] Dữ liệu CSV (`data/raw/`)
 - [ ] Báo cáo (`report/`)
 - [ ] Slide thuyết trình

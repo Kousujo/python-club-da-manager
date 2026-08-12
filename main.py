@@ -6,6 +6,7 @@ from pathlib import Path
 
 from src.analysis.stats import (
     churn_risk,
+    class_participation_test,
     engagement_with_stats,
     event_retention_power,
     growth_trend,
@@ -55,11 +56,15 @@ def main() -> None:
     print("\n=== Nguy cơ ngừng tham gia ===")
     print(risk_df.to_string(index=False))
 
-    print("\n=== Kiểm định 1: sự kiện bắt buộc vs tự chọn (chi-square) ===")
+    print("\n=== Kiểm định 1: chênh lệch giữa các lớp (Kruskal-Wallis) ===")
+    for key, value in class_participation_test(club).items():
+        print(f"  {key}: {value}")
+
+    print("\n=== Kiểm định 2: sự kiện bắt buộc vs tự chọn (chi-square) ===")
     for key, value in mandatory_vs_optional_test(club).items():
         print(f"  {key}: {value}")
 
-    print("\n=== Kiểm định 2: mức tham gia có suy giảm không (Wilcoxon ghép cặp) ===")
+    print("\n=== Kiểm định 3: mức tham gia có suy giảm không (Wilcoxon ghép cặp) ===")
     for key, value in participation_decline_test(club).items():
         print(f"  {key}: {value}")
 
