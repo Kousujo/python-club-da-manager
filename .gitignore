@@ -218,3 +218,6 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Dữ liệu mô phỏng trong data/raw/ ĐƯỢC commit để repo chạy được ngay sau khi clone.
+
+# Cấu hình cục bộ của Cline (chỉ đặt ở local, không đẩy lên repo)
+.clinerules/
