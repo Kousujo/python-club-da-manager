@@ -46,7 +46,7 @@ Club                          # lớp điều phối — không kế thừa, t�
 ## 3. Cấu trúc thư mục
 
 ```
-Python-DA/
+python-club-da-manager/
 ├── data/
 │   └── raw/                    # members.csv, events.csv, attendance.csv
 ├── src/
@@ -115,7 +115,7 @@ streamlit run dashboard.py       # chạy dashboard (mở rộng)
 
 ## 8. Sản phẩm nộp
 
-- [ ] Mã nguồn (`Python-DA/`)
+- [ ] Mã nguồn (`python-club-da-manager/`)
 - [ ] Dữ liệu CSV (`data/raw/`)
 - [ ] Báo cáo (`report/`)
 - [ ] Slide thuyết trình
