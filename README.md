@@ -6,13 +6,13 @@ Dự án cuối kỳ học phần **Lập trình Python cho Phân tích Dữ li�
 
 Hệ thống mô phỏng việc quản lý thành viên, sự kiện và điểm danh của một câu lạc bộ/đội nhóm sinh viên, phục vụ thống kê mức độ tham gia. Dự án được thiết kế để đáp ứng đầy đủ 5 chuẩn đầu ra học phần (CLO1–CLO5) theo Rubric R05.
 
-| CLO | Nội dung | Thành phần đáp ứng |
-|---|---|---|
-| CLO1 (10%) | Cú pháp & cấu trúc Python | Toàn bộ codebase: PEP8, type hint, try/except, module rõ ràng |
-| CLO2 (25%) | Xử lý & biến đổi dữ liệu (Pandas/NumPy) | `src/processing/`, `src/analysis/` |
-| CLO3 (20%) | Trực quan hoá & giải thích kết quả | `src/visualization/` (6 biểu đồ Matplotlib) |
+| CLO        | Nội dung                                           | Thành phần đáp ứng                                                                         |
+| ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| CLO1 (10%) | Cú pháp & cấu trúc Python                       | Toàn bộ codebase: PEP8, type hint, try/except, module rõ ràng                               |
+| CLO2 (25%) | Xử lý & biến đổi dữ liệu (Pandas/NumPy)      | `src/processing/`, `src/analysis/`                                                          |
+| CLO3 (20%) | Trực quan hoá & giải thích kết quả            | `src/visualization/` (6 biểu đồ Matplotlib)                                                |
 | CLO4 (30%) | Thiết kế OOP & giải pháp phân tích tổng thể | `src/models/` (kế thừa + đa hình), `src/db/` (SQL Server), `dashboard.py` (Streamlit) |
-| CLO5 (15%) | Làm việc nhóm, báo cáo & thuyết trình | `report/`, slide thuyết trình |
+| CLO5 (15%) | Làm việc nhóm, báo cáo & thuyết trình        | `report/`, slide thuyết trình                                                               |
 
 ## 2. Kiến trúc hướng đối tượng (CLO4)
 
@@ -34,14 +34,14 @@ Club                          # lớp điều phối — không kế thừa, t�
 
 **Điểm đa hình cốt lõi**: khi `Club` tính tỉ lệ tham gia, nó gọi `event.get_attendance_weight()` và `member.get_score_multiplier()` mà không cần biết đối tượng cụ thể là lớp con nào — đúng nguyên lý đa hình, đồng thời là chỗ để giải thích trong báo cáo/thuyết trình.
 
-| Class | Trách nhiệm chính |
-|---|---|
-| `Member` | Thông tin thành viên, lịch sử tham gia |
-| `Officer` | Thành viên ban chủ nhiệm — override hệ số điểm tích cực |
-| `Event` | Thông tin sự kiện |
-| `MandatoryEvent` / `OptionalEvent` | Phân loại sự kiện — override trọng số điểm danh |
-| `Club` | Quản lý danh sách Member/Event, điểm danh, thống kê tỉ lệ tham gia |
-| `*Error` | Ngoại lệ nghiệp vụ dùng trong `try/except` khi điểm danh |
+| Class                                  | Trách nhiệm chính                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------- |
+| `Member`                             | Thông tin thành viên, lịch sử tham gia                                 |
+| `Officer`                            | Thành viên ban chủ nhiệm — override hệ số điểm tích cực          |
+| `Event`                              | Thông tin sự kiện                                                        |
+| `MandatoryEvent` / `OptionalEvent` | Phân loại sự kiện — override trọng số điểm danh                    |
+| `Club`                               | Quản lý danh sách Member/Event, điểm danh, thống kê tỉ lệ tham gia |
+| `*Error`                             | Ngoại lệ nghiệp vụ dùng trong`try/except` khi điểm danh            |
 
 ## 3. Cấu trúc thư mục
 
@@ -69,8 +69,6 @@ python-club-da-manager/
 ├── main.py                      # pipeline chạy toàn bộ
 ├── report/                      # báo cáo Word/PDF
 ├── tests/                        # sanity check nhanh cho models/
-├── .clinerules/
-│   └── project-rule.md
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -90,17 +88,17 @@ Dự án dùng **dữ liệu mô phỏng theo kịch bản thực tế** tại `
 
 ## 6. Kế hoạch triển khai (theo pha)
 
-| Pha | Nội dung |
-|---|---|
-| 0 | Khởi tạo repo, README, rule cho Cline, scaffold cấu trúc thư mục |
-| 1 | Code `models/` (OOP core) + sinh bộ dữ liệu mô phỏng |
-| 2 | Code `processing/loader.py` (đọc CSV, validate, exception) |
-| 3 | Code `analysis/stats.py` (Pandas + SciPy) |
-| 4 | Code `visualization/charts.py` (6 biểu đồ) |
-| 5 | Mở rộng: SQL Server (`db/`) |
-| 6 | Mở rộng: Streamlit (`dashboard.py`) |
-| 7 | Viết báo cáo Word + slide thuyết trình |
-| 8 | Viết báo cáo + slide thuyết trình |
+| Pha | Nội dung                                                              |
+| --- | ---------------------------------------------------------------------- |
+| 0   | Khởi tạo repo, README, rule cho Cline, scaffold cấu trúc thư mục |
+| 1   | Code`models/` (OOP core) + sinh bộ dữ liệu mô phỏng             |
+| 2   | Code`processing/loader.py` (đọc CSV, validate, exception)          |
+| 3   | Code`analysis/stats.py` (Pandas + SciPy)                             |
+| 4   | Code`visualization/charts.py` (6 biểu đồ)                         |
+| 5   | Mở rộng: SQL Server (`db/`)                                        |
+| 6   | Mở rộng: Streamlit (`dashboard.py`)                                |
+| 7   | Viết báo cáo Word + slide thuyết trình                            |
+| 8   | Viết báo cáo + slide thuyết trình                                 |
 
 ## 7. Cài đặt & chạy
 

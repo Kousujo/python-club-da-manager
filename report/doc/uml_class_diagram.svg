@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" font-family="DejaVu Sans, Arial, sans-serif">
+<rect width="1500" height="900" fill="#ffffff"/>
+<text x="750.0" y="30" font-size="18" text-anchor="middle" font-weight="bold">Sơ đồ lớp UML — Hệ thống quản lý Câu lạc bộ Sinh viên</text>
+<text x="750.0" y="52" font-size="12.5" text-anchor="middle" fill="#555">Phương thức đánh dấu &#9733; là phương thức được ghi đè (thể hiện tính đa hình)</text>
+<rect x="60" y="80" width="320" height="181" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="96" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="220.0" y="118" font-size="15" text-anchor="middle" font-weight="bold">Member</text>
+<line x1="60" y1="127" x2="380" y2="127" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="144" font-size="12.5">+ member_id: str</text>
+<text x="70" y="163" font-size="12.5">+ full_name: str</text>
+<text x="70" y="182" font-size="12.5">+ class_name: str</text>
+<text x="70" y="201" font-size="12.5">+ join_date: date</text>
+<line x1="60" y1="213" x2="380" y2="213" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="230" font-size="12.5">+ get_score_multiplier(): float = 1.0</text>
+<text x="70" y="249" font-size="12.5">+ get_role_label(): str</text>
+<rect x="60" y="300" width="320" height="124" fill="#f2f2f2" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="316" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="220.0" y="338" font-size="15" text-anchor="middle" font-weight="bold">Officer</text>
+<line x1="60" y1="347" x2="380" y2="347" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="364" font-size="12.5">+ position: str = 'Ban chủ nhiệm'</text>
+<line x1="60" y1="376" x2="380" y2="376" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="393" font-size="12.5" font-weight="bold">+ get_score_multiplier(): float = 1.2 &#9733;</text>
+<text x="70" y="412" font-size="12.5" font-weight="bold">+ get_role_label(): str &#9733;</text>
+<line x1="220" y1="300" x2="220" y2="263" stroke="#222" stroke-width="1.6"/>
+<polygon points="220,249 211,263 229,263" fill="#fff" stroke="#222" stroke-width="1.6"/>
+<rect x="1060" y="80" width="340" height="162" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="1230.0" y="96" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="1230.0" y="118" font-size="15" text-anchor="middle" font-weight="bold">Event</text>
+<line x1="1060" y1="127" x2="1400" y2="127" stroke="#222" stroke-width="1.2"/>
+<text x="1070" y="144" font-size="12.5">+ event_id: str</text>
+<text x="1070" y="163" font-size="12.5">+ name: str</text>
+<text x="1070" y="182" font-size="12.5">+ date: date</text>
+<text x="1070" y="201" font-size="12.5">+ category: str</text>
+<line x1="1060" y1="213" x2="1400" y2="213" stroke="#222" stroke-width="1.2"/>
+<text x="1070" y="230" font-size="12.5">+ get_attendance_weight(): float = 1.0</text>
+<rect x="930" y="320" width="230" height="95" fill="#f2f2f2" stroke="#222" stroke-width="1.6"/>
+<text x="1045.0" y="336" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="1045.0" y="358" font-size="15" text-anchor="middle" font-weight="bold">MandatoryEvent</text>
+<line x1="930" y1="367" x2="1160" y2="367" stroke="#222" stroke-width="1.2"/>
+<line x1="930" y1="367" x2="1160" y2="367" stroke="#222" stroke-width="1.2"/>
+<text x="940" y="384" font-size="12.5">+ get_attendance_weight()</text>
+<text x="940" y="403" font-size="12.5" font-weight="bold">&#160;&#160;&#160;&#160;: float = 1.5 &#9733;</text>
+<rect x="1190" y="320" width="230" height="95" fill="#f2f2f2" stroke="#222" stroke-width="1.6"/>
+<text x="1305.0" y="336" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="1305.0" y="358" font-size="15" text-anchor="middle" font-weight="bold">OptionalEvent</text>
+<line x1="1190" y1="367" x2="1420" y2="367" stroke="#222" stroke-width="1.2"/>
+<line x1="1190" y1="367" x2="1420" y2="367" stroke="#222" stroke-width="1.2"/>
+<text x="1200" y="384" font-size="12.5">+ get_attendance_weight()</text>
+<text x="1200" y="403" font-size="12.5" font-weight="bold">&#160;&#160;&#160;&#160;: float = 0.8 &#9733;</text>
+<polyline points="1045,320 1045,285 1305,285 1305,320" fill="none" stroke="#222" stroke-width="1.6"/>
+<line x1="1230" y1="285" x2="1230" y2="256" stroke="#222" stroke-width="1.6"/>
+<polygon points="1230,242 1221,256 1239,256" fill="#fff" stroke="#222" stroke-width="1.6"/>
+<rect x="430" y="300" width="440" height="373" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="650.0" y="321" font-size="15" text-anchor="middle" font-weight="bold">Club</text>
+<line x1="430" y1="330" x2="870" y2="330" stroke="#222" stroke-width="1.2"/>
+<text x="440" y="347" font-size="12.5">- _members: dict[str, Member]</text>
+<text x="440" y="366" font-size="12.5">- _events: dict[str, Event]</text>
+<text x="440" y="385" font-size="12.5">- _attendance: list[AttendanceRecord]</text>
+<text x="440" y="404" font-size="12.5">- _attendance_keys: set[tuple[str, str]]</text>
+<text x="440" y="423" font-size="12.5">- _df_cache: DataFrame | None</text>
+<text x="440" y="442" font-size="12.5">+ members  &#171;property, chỉ đọc&#187;</text>
+<text x="440" y="461" font-size="12.5">+ events  &#171;property, chỉ đọc&#187;</text>
+<text x="440" y="480" font-size="12.5">+ attendance  &#171;property, chỉ đọc&#187;</text>
+<line x1="430" y1="492" x2="870" y2="492" stroke="#222" stroke-width="1.2"/>
+<text x="440" y="509" font-size="12.5">+ add_member(m: Member)</text>
+<text x="440" y="528" font-size="12.5">+ add_event(e: Event)</text>
+<text x="440" y="547" font-size="12.5">+ check_in(member_id, event_id, time)</text>
+<text x="440" y="566" font-size="12.5">+ to_dataframe(): DataFrame</text>
+<text x="440" y="585" font-size="12.5">+ participation_rate_by_event(): DataFrame</text>
+<text x="440" y="604" font-size="12.5">+ participation_rate_by_member(): DataFrame</text>
+<text x="440" y="623" font-size="12.5">+ participation_rate_by_class(): DataFrame</text>
+<text x="440" y="642" font-size="12.5">+ engagement_ranking(top_n): DataFrame</text>
+<text x="440" y="661" font-size="12.5">+ member_growth_over_time(): DataFrame</text>
+<rect x="430" y="730" width="320" height="114" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="590.0" y="746" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;dataclass&#187;</text>
+<text x="590.0" y="768" font-size="15" text-anchor="middle" font-weight="bold">AttendanceRecord</text>
+<line x1="430" y1="777" x2="750" y2="777" stroke="#222" stroke-width="1.2"/>
+<text x="440" y="794" font-size="12.5">+ member_id: str</text>
+<text x="440" y="813" font-size="12.5">+ event_id: str</text>
+<text x="440" y="832" font-size="12.5">+ checkin_time: datetime</text>
+<line x1="430" y1="844" x2="750" y2="844" stroke="#222" stroke-width="1.2"/>
+<line x1="430" y1="360" x2="380" y2="360" stroke="#222" stroke-width="1.6"/>
+<polygon points="430,351 443,360 430,369 417,360" fill="#222"/>
+<text x="405" y="352" font-size="12.5" text-anchor="middle" fill="#333">1..*</text>
+<line x1="870" y1="340" x2="1060" y2="215" stroke="#222" stroke-width="1.6"/>
+<polygon points="870,331 883,340 870,349 857,340" fill="#222"/>
+<text x="975" y="265" font-size="12.5" text-anchor="middle" fill="#333">1..*</text>
+<line x1="590" y1="673" x2="590" y2="730" stroke="#222" stroke-width="1.6"/>
+<polygon points="590,664 603,673 590,682 577,673" fill="#222"/>
+<text x="615" y="710" font-size="12.5" fill="#333">1..*</text>
+<rect x="60" y="500" width="320" height="47" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="516" font-size="12.5" text-anchor="middle" fill="#555" font-style="italic">&#171;kế thừa Exception&#187;</text>
+<text x="220.0" y="538" font-size="15" text-anchor="middle" font-weight="bold">ClubManagementError</text>
+<line x1="60" y1="547" x2="380" y2="547" stroke="#222" stroke-width="1.2"/>
+<line x1="60" y1="547" x2="380" y2="547" stroke="#222" stroke-width="1.2"/>
+<rect x="60" y="610" width="320" height="59" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="631" font-size="15" text-anchor="middle" font-weight="bold">MemberNotFoundError</text>
+<line x1="60" y1="640" x2="380" y2="640" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="657" font-size="12.5">+ member_id: str</text>
+<line x1="60" y1="669" x2="380" y2="669" stroke="#222" stroke-width="1.2"/>
+<rect x="60" y="700" width="320" height="59" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="721" font-size="15" text-anchor="middle" font-weight="bold">EventNotFoundError</text>
+<line x1="60" y1="730" x2="380" y2="730" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="747" font-size="12.5">+ event_id: str</text>
+<line x1="60" y1="759" x2="380" y2="759" stroke="#222" stroke-width="1.2"/>
+<rect x="60" y="790" width="320" height="78" fill="#ffffff" stroke="#222" stroke-width="1.6"/>
+<text x="220.0" y="811" font-size="15" text-anchor="middle" font-weight="bold">DuplicateAttendanceError</text>
+<line x1="60" y1="820" x2="380" y2="820" stroke="#222" stroke-width="1.2"/>
+<text x="70" y="837" font-size="12.5">+ member_id: str</text>
+<text x="70" y="856" font-size="12.5">+ event_id: str</text>
+<line x1="60" y1="868" x2="380" y2="868" stroke="#222" stroke-width="1.2"/>
+<polyline points="25,639 25,829" fill="none" stroke="#222" stroke-width="1.6"/>
+<line x1="25" y1="639" x2="60" y2="639" stroke="#222" stroke-width="1.6"/>
+<line x1="25" y1="729" x2="60" y2="729" stroke="#222" stroke-width="1.6"/>
+<line x1="25" y1="829" x2="60" y2="829" stroke="#222" stroke-width="1.6"/>
+<polyline points="25,639 25,523 46,523" fill="none" stroke="#222" stroke-width="1.6"/>
+<polygon points="60,523 46,514 46,532" fill="#fff" stroke="#222" stroke-width="1.6"/>
+<text x="900" y="470" font-size="14" font-weight="bold">Ghi chú thiết kế</text>
+<text x="900" y="496" font-size="12.5" fill="#333">1. Đa hình qua giao diện chung. Khi tính điểm gắn kết, Club gọi</text>
+<text x="900" y="515" font-size="12.5" fill="#333">    get_attendance_weight() và get_score_multiplier() mà không cần biết</text>
+<text x="900" y="534" font-size="12.5" fill="#333">    đối tượng thuộc lớp con nào. Tầng models không dùng isinstance().</text>
+<text x="900" y="553" font-size="12.5" fill="#333"></text>
+<text x="900" y="572" font-size="12.5" fill="#333">        engagement_score = &#931;(trọng số sự kiện đã tham gia)</text>
+<text x="900" y="591" font-size="12.5" fill="#333">                                     &#215; hệ số nhân của thành viên</text>
+<text x="900" y="610" font-size="12.5" fill="#333"></text>
+<text x="900" y="629" font-size="12.5" fill="#333">2. Đóng gói trạng thái. Ba thuộc tính private của Club chỉ truy cập được</text>
+<text x="900" y="648" font-size="12.5" fill="#333">    qua property chỉ đọc (MappingProxyType / tuple), ngăn tầng ngoài</text>
+<text x="900" y="667" font-size="12.5" fill="#333">    làm biến đổi trạng thái nội bộ.</text>
+<text x="900" y="686" font-size="12.5" fill="#333"></text>
+<text x="900" y="705" font-size="12.5" fill="#333">3. Tối ưu. _attendance_keys cho phép kiểm tra điểm danh trùng trong O(1);</text>
+<text x="900" y="724" font-size="12.5" fill="#333">    _df_cache lưu kết quả to_dataframe() và tự huỷ khi dữ liệu thay đổi.</text>
+</svg>
