@@ -113,9 +113,9 @@ streamlit run dashboard.py       # chạy dashboard (mở rộng)
 
 ## 8. Sản phẩm nộp
 
-- [ ] Mã nguồn (`python-club-da-manager/`)
-- [ ] Dữ liệu CSV (`data/raw/`)
-- [ ] Báo cáo (`report/`)
+- [X] Mã nguồn (`python-club-da-manager/`)
+- [X] Dữ liệu CSV (`data/raw/`)
+- [X] Báo cáo (`report/`)
 - [ ] Slide thuyết trình
 
 ## 9. Quy ước code
